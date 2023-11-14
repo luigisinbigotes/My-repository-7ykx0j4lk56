@@ -1,0 +1,2 @@
+$env:HEADED="1"
+dotnet test
