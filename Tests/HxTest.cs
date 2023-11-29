@@ -25,8 +25,10 @@ public class HxTests : PageTest
         await this.MyTestPage.TxtSearch.TypeAsync("Outsource");
         await this.MyTestPage.TxtSearch.PressAsync("Enter");
 
-        var xpath = ".//a[contains(text(),'What not to do when working with an outsourced software team')]";
-        await Expect(Page.Locator($"xpath={xpath}")).ToBeVisibleAsync();
+        var searchString = "What not to do when working with an outsourced software team";
+        var results = this.OtherTestPage.Results.AllInnerTextsAsync().Result;
+
+        Assert.True(results.Any(x => x.ToUpper() == searchString.ToUpper()));
     }
 
     [Test]
