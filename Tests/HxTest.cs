@@ -11,6 +11,10 @@ public class HxTests : PageTest
     private MyPage MyTestPage => new(Page);
     private MyOtherPage OtherTestPage => new(Page);
 
+    private HerokuLogin LoginPage => new(Page);
+
+    private HerokuLoggedLanding LoggedPage => new(Page);
+
     [Test]
     public async Task LandsOnPageAndPerformValidations_ValidationsPasses()
     {
@@ -23,6 +27,18 @@ public class HxTests : PageTest
 
         var xpath = ".//a[contains(text(),'What not to do when working with an outsourced software team')]";
         await Expect(Page.Locator($"xpath={xpath}")).ToBeVisibleAsync();
+    }
+
+    [Test]
+    public async Task AttemptsToLoginToHerokuApp_UserIsLogged()
+    {
+        await Page.GotoAsync("https://the-internet.herokuapp.com/login");
+
+        await this.LoginPage.TxtUsername.TypeAsync("tomsmith");
+        await this.LoginPage.TxtPassword.TypeAsync("SuperSecretPassword!");
+        await this.LoginPage.BtnLogin.ClickAsync();
+
+        await Expect(this.LoggedPage.TxtSuccessfullyLogged).ToContainTextAsync("You logged into a secure area!");
     }
 
     [Test]
