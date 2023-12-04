@@ -9,7 +9,7 @@ namespace PageObjects
         { }
 
         // returns all a elements found within articles in result page
-        public ILocator Results => _page.Locator("article > div > h3 > a");
+        public ILocator Results => _page.Locator("[data-attrid=description]");
 
         public ILocator LnkPreviousPage => _page.Locator("a.prev");
 

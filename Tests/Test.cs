@@ -6,7 +6,7 @@ namespace PlaywrightTests;
 
 [NonParallelizable]
 [TestFixture]
-public class HxTests : PageTest
+public class Tests : PageTest
 {
     private MyPage MyTestPage => new(Page);
     private MyOtherPage OtherTestPage => new(Page);
@@ -18,17 +18,17 @@ public class HxTests : PageTest
     [Test]
     public async Task LandsOnPageAndPerformValidations_ValidationsPasses()
     {
-        await Page.GotoAsync("https://www.hexacta.com/");
-        await Expect(Page).ToHaveTitleAsync("Nearshore Software Development Company | Hexacta");
+        await Page.GotoAsync("https://www.google.com/");
+        await Expect(Page).ToHaveTitleAsync("Google");
 
-        await this.MyTestPage.BtnSearch.ClickAsync();
+        //await this.MyTestPage.BtnSearch.ClickAsync();
         await this.MyTestPage.TxtSearch.TypeAsync("Outsource");
         await this.MyTestPage.TxtSearch.PressAsync("Enter");
 
-        var searchString = "What not to do when working with an outsourced software team";
-        var results = this.OtherTestPage.Results.AllInnerTextsAsync().Result;
+        var searchString = "DescripciónLa subcontratación, ​ externalización​ o tercerización es un acuerdo por el que una empresa contrata a otra para que se encargue de una actividad prevista o existente que se realiza o podría realizarse internamente y, en ocasiones, implica la transferencia de empleados y activos de una empresa a otra. Wikipedia";
+        var results = this.OtherTestPage.Results.InnerTextAsync().Result;
 
-        Assert.True(results.Any(x => x.ToUpper() == searchString.ToUpper()));
+        await Expect(this.OtherTestPage.Results).ToContainTextAsync(searchString);
     }
 
     [Test]

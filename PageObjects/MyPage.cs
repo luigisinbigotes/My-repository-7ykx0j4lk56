@@ -10,8 +10,8 @@ namespace PageObjects
             _page = page;
         }
 
-        public ILocator BtnSearch => _page.Locator("css=a.searchbox");
+        public ILocator BtnSearch => _page.Locator("css=[name=btnK]").Last;
 
-        public ILocator TxtSearch => _page.Locator("css=[type=search]");
+        public ILocator TxtSearch => _page.Locator("css=[name=q]");
     }
 }
